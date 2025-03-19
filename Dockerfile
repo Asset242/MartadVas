@@ -53,7 +53,7 @@ RUN composer install --no-interaction --optimize-autoloader
 
 
 # Install npm dependencies and build the assets
-RUN npm install
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
 
