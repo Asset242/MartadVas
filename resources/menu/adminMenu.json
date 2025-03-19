@@ -1,0 +1,53 @@
+{
+    "menu": [
+      {
+        "url": "/martad/dashboard",
+        "name": "Dashboard",
+        "icon": "menu-icon tf-icons bx bx-home-smile",
+        "slug": "dashboard"
+      },
+      {
+        "name": "Manage Partner",
+        "icon": "menu-icon tf-icons bx bx-layout",
+        "slug": "posts",
+        "submenu": [
+          {
+            "url": "/martad/create-partner",
+            "name": "Create partner",
+            "slug": "partner"
+          },
+          {
+            "url": "/martad/all-partners",
+            "name": "All Partners",
+            "slug": "partners"
+          }
+        ]
+      },
+      {
+        "url": "",
+        "name": "Manage Products",
+        "icon": "menu-icon tf-icons bx bx-detail",
+        "slug": "category",
+        "submenu": [
+          {
+            "url": "/martad/create-product",
+            "name": "Create products",
+            "slug": "products"
+          },
+          {
+            "url": "/martad/all-product",
+            "name": "All Products",
+            "slug": "Products"
+          }
+        ]
+      },
+      {
+        "url": "/martad/logout",
+        "name": "Logout",
+        "icon": "menu-icon tf-icons bx bx-home-smile",
+        "slug": "logout"
+      }
+  
+    ]
+  }
+  
