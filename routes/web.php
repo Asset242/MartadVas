@@ -100,54 +100,13 @@ Route::prefix('martad')->group( function () {
           Route::post('create-partner', [AdminController::class,'createPartner'])->name('admin.create.partner');
 
 
-          Route::get('create-product', [AdminController::class, 'getCreateProduct'])->name('admin-create');
+          Route::get('create-product', [AdminController::class, 'getCreateProduct'])->name('get-admin-create');
           Route::get('all-product', [AdminController::class, 'getProduct'])->name('admin-product');
           Route::post('create-product', [AdminController::class,'createProduct'])->name('admin.create.product');
           Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
 
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
