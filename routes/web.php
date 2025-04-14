@@ -96,6 +96,10 @@ Route::prefix('martad')->group( function () {
     Route::middleware('auth:admin')->group(function () {
           Route::get('dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dashboard');
           Route::get('create-partner', [AdminController::class, 'getCreatePartner'])->name('admin-create');
+          Route::get('statistics', [AdminController::class, 'getStatistics'])->name('statistics');
+          Route::get('/report', [AdminController::class, 'getStatistics'])->name('admin.partner_service.report');
+
+
           Route::get('all-partners', [AdminController::class, 'getPartners'])->name('admin-partners');
           Route::post('create-partner', [AdminController::class,'createPartner'])->name('admin.create.partner');
 

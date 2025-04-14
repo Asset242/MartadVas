@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\PartnerServiceReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -52,11 +53,15 @@ class AdminController extends Controller
       'name' => 'required|string|max:255|unique:users,name',
       'email' => 'required|email|max:255|unique:users,email',
       'password' => 'required|string|min:8',
+      'service_name' => 'required|string|unique:users,service_name|max:255',
+      'type' => 'required|in:martad,partner',
     ]);
 
     User::create([
       'name' => $request->input('name'),
       'email' => $request->input('email'),
+      'service_name' =>  $request->input('service_name'),
+      'type' =>  $request->input('type'),
       'password' => Hash::make($request->input('password'))
     ]);
 
@@ -106,6 +111,68 @@ class AdminController extends Controller
     $products = Product::with('user')->get();
     return view('content.tables.admin.admin-products', compact('products'));
   }
+
+
+  public function getStatistics(Request $request)
+  {
+    // $serviceTypes = User::select('service_name')
+    // ->distinct()
+    // ->orderBy('service_name')
+    // ->pluck('service_name');
+
+    $serviceTypes = PartnerServiceReport::select('service_type')
+    ->distinct()
+    ->orderBy('service_type')
+    ->pluck('service_type');
+        // Start with the base query
+        $partnerServices = PartnerServiceReport::query();
+
+        // Apply filters based on the request inputs
+    
+        // Filter by Added Date
+        if ($request->filled('added_date')) {
+            $partnerServices->whereDate('added_date', $request->added_date);
+        }
+
+        // if ($request->filled('partner_type')) {
+        //   $partnerServices->whereDate('partner_type', $request->added_date);
+        // }
+    
+        // Filter by Logged Date
+        if ($request->filled('logged_date')) {
+            $partnerServices->whereDate('created_at', $request->logged_date);
+        }
+    
+        // Filter by From and To date range
+        if ($request->filled('from') && $request->filled('to')) {
+            $partnerServices->whereBetween('added_date', [$request->from, $request->to]);
+        }
+    
+        // Filter by Service Type
+        if ($request->filled('service_type')) {
+            $partnerServices->where('service_type', 'like', '%' . $request->service_type . '%');
+        }
+    
+        // Filter by Charge Amount
+        if ($request->filled('charge_amount')) {
+            $partnerServices->where('charge_amount', 'like', '%' . $request->charge_amount . '%');
+        }
+        
+        if (
+          !$request->filled('logged_date') &&
+          !$request->filled('from') &&
+          !$request->filled('to') &&
+          !$request->filled('added_date')
+      ) {
+          $partnerServices->whereDate('created_at', now()->toDateString());
+      }
+        // Get paginated results
+        $partnerServices = $partnerServices->paginate(10);
+    
+        // Return the view with the filtered results
+        return view('content.form-elements.admin.all-statistics', compact('partnerServices', 'serviceTypes'));
+    }
+
 
 
   public function logout(Request $request)

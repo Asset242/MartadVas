@@ -1,4 +1,4 @@
-@extends('layouts/AdminContentNavbarLayout')
+@extends('layouts/adminContentNavbarLayout')
 
 @section('title', 'Create Partner')
 
@@ -20,6 +20,9 @@
                         <th>S/N</th> 
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Service Name</th>
+                        <th>Type</th>
+
                         <th>Date Created</th>
                         <th>Actions</th>
                     </tr>
@@ -31,6 +34,9 @@
 
                       <td>{{ $user->name }}</td>
                       <td>{{ $user->email}}</td>
+                      <td>{{ $user->service_name }}</td>
+                      <td>{{ $user->type }}</td>
+
                       <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d M Y, H:i') }}</td> <!-- Formatted date -->
 
                       <td>
