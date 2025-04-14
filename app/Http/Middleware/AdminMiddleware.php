@@ -16,7 +16,7 @@ class AdminMiddleware
   public function handle(Request $request, Closure $next): Response
   {
     if (!auth('admin')->check()) {
-      return redirect('/martad/admin');
+      return redirect('martad.admin');
     }
     return $next($request);
   }

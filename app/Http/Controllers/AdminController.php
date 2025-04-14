@@ -29,13 +29,47 @@ class AdminController extends Controller
 
   public function adminDashboard()
   {
+    $today = now()->toDateString();
+    $startOfWeek = now()->startOfWeek()->toDateString();
+    $startOfMonth = now()->startOfMonth()->toDateString();
+    $yesterday = now()->subDay()->toDateString();
+
     $categoryCount = Category::count();
     $postCount = Post::count();
     $userCount = User::count();
     $productsCount = Product::count();
+
+    $totalSalesToday = PartnerServiceReport::whereDate('added_date', $today)
+                            ->selectRaw('SUM(charge_amount * count) as total')
+                            ->value('total') ?? 0;
+    $totalServicesToday = PartnerServiceReport::whereDate('added_date', $today)
+                            ->sum('count') ?? 0;
+
+                            $totalRevenueToday = PartnerServiceReport::whereDate('added_date', $today)
+                            ->selectRaw('SUM(charge_amount * count) as total')
+                            ->value('total') ?? 0;
+
+    // Total Revenue This Week
+    $totalRevenueThisWeek = PartnerServiceReport::whereBetween('added_date', [$startOfWeek, $today])
+                            ->selectRaw('SUM(charge_amount * count) as total')
+                            ->value('total') ?? 0;
+
+    // Total Revenue This Month
+    $totalRevenueThisMonth = PartnerServiceReport::whereBetween('added_date', [$startOfMonth, $today])
+                            ->selectRaw('SUM(charge_amount * count) as total')
+                            ->value('total') ?? 0;
+
+    // Total Revenue All Time
+    $totalRevenueAllTime = PartnerServiceReport::selectRaw('SUM(charge_amount * count) as total')
+                            ->value('total') ?? 0;
+
+    $totalRevenueYesterday = PartnerServiceReport::whereDate('added_date', $yesterday)
+                                                    ->selectRaw('SUM(charge_amount * count) as total')
+                                                    ->value('total') ?? 0;
     return view(
       'content.dashboard.admin.dashboard-admin',
-      compact('categoryCount', 'postCount', 'userCount', 'productsCount')
+      compact('totalRevenueThisMonth', 'totalRevenueThisWeek', 'totalSalesToday',
+        'totalServicesToday', 'totalRevenueAllTime', 'totalRevenueYesterday')
     );
   }
 
@@ -180,6 +214,6 @@ class AdminController extends Controller
     auth('admin')->logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-    return redirect()->route('admin')->with('success', 'You have been logged out.');
+    return redirect()->route('martad.admin')->with('success', 'You have been logged out.');
   }
 }

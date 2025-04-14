@@ -91,7 +91,7 @@ Route::middleware('auth:web')->group(function () {
  * |----------------------------------------------------------------
  */
 Route::prefix('martad')->group( function () {
-  Route::get('admin', [AdminController::class, 'loginPage']);
+  Route::get('admin', [AdminController::class, 'loginPage'])->name('martad.admin');
   Route::post('admin-login', [AdminController::class, 'adminLogin'])->name('martad.admin.login');
     Route::middleware('auth:admin')->group(function () {
           Route::get('dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dashboard');
