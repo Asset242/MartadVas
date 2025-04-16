@@ -1,4 +1,4 @@
-@extends('layouts/adminContentNavbarLayout')
+@extends('layouts/contentNavbarLayout')
 
 @section('title', 'Partner Service Report')
 

@@ -16,43 +16,47 @@
         document.addEventListener('DOMContentLoaded', function () {
             const options = {
                 chart: {
-                    type: 'bar',
-                    height: 350
+                    type: 'line',
+                    height: 350,
+                    toolbar: { show: false }
                 },
                 series: [{
                     name: 'Revenue',
                     data: [
-                        {{ $totalRevenueAllTime }},
-                        {{ $totalRevenueThisMonth }},
-                        {{ $totalRevenueYesterday }},
-                        {{ $totalSalesToday }}
+                        @foreach($lastSixMonths as $data)
+                            {{ $data['total'] }},
+                        @endforeach
                     ]
                 }],
                 xaxis: {
                     categories: [
-                        'All Time',
-                        'This Month',
-                        'Yesterday',
-                        'Today'
+                        @foreach($lastSixMonths as $data)
+                            '{{ $data['month'] }}',
+                        @endforeach
                     ]
                 },
                 colors: ['#696CFF'],
-                plotOptions: {
-                    bar: {
-                        borderRadius: 5,
-                        horizontal: false
-                    }
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                markers: {
+                    size: 5,
+                    colors: ['#696CFF'],
+                    strokeColors: '#fff',
+                    strokeWidth: 2,
+                    hover: { size: 7 }
                 },
                 dataLabels: {
                     enabled: true,
                     formatter: function (val) {
-                        return "₦" + val;
+                        return "₦" + val.toLocaleString();
                     }
                 },
                 tooltip: {
                     y: {
                         formatter: function (val) {
-                            return "₦" + val;
+                            return "₦" + val.toLocaleString();
                         }
                     }
                 }
@@ -66,71 +70,37 @@
 
 @section('content') 
 <div class="row">
-    <!-- Total Revenue All Time Card -->
+
+    @php
+        $cards = [
+            ['title' => 'Total Revenue All Time', 'amount' => $totalRevenueAllTime, 'icon' => 'wallet.png'],
+            ['title' => 'Total Revenue This Month', 'amount' => $totalRevenueThisMonth, 'icon' => 'wallet.png'],
+            ['title' => 'Revenue Yesterday', 'amount' => $totalRevenueYesterday, 'icon' => 'chart-success.png'],
+            ['title' => 'Revenue Today', 'amount' => $totalSalesToday, 'icon' => 'wallet-info.png'],
+        ];
+    @endphp
+
+    @foreach ($cards as $card)
     <div class="col-lg-3 col-md-6 col-12 mb-4">
         <div class="card">
             <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
-                        <img src="{{ asset('assets/img/icons/unicons/wallet.png') }}" alt="Credit Card" class="rounded">
+                        <img src="{{ asset('assets/img/icons/unicons/' . $card['icon']) }}" alt="icon" class="rounded">
                     </div>
                 </div>
-                <span>Total Revenue All Time</span>
-                <h3 class="card-title text-nowrap mb-1">₦{{ number_format($totalRevenueAllTime) }}</h3>
+                <span>{{ $card['title'] }}</span>
+                <h3 class="card-title text-nowrap mb-1">₦{{ number_format($card['amount']) }}</h3>
             </div>
         </div>
     </div>
+    @endforeach
 
-    <!-- Revenue This Month Card -->
-    <div class="col-lg-3 col-md-6 col-12 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between">
-                    <div class="avatar flex-shrink-0">
-                        <img src="{{ asset('assets/img/icons/unicons/wallet.png') }}" alt="Credit Card" class="rounded">
-                    </div>
-                </div>
-                <span>Total Revenue This Month</span>
-                <h3 class="card-title text-nowrap mb-1">₦{{ number_format($totalRevenueThisMonth) }}</h3>
-            </div>
-        </div>
-    </div>
-
-    <!-- Revenue Yesterday Card -->
-    <div class="col-lg-3 col-md-6 col-12 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between">
-                    <div class="avatar flex-shrink-0">
-                        <img src="{{ asset('assets/img/icons/unicons/chart-success.png') }}" alt="chart success" class="rounded">
-                    </div>
-                </div>
-                <span class="fw-semibold d-block mb-1">Revenue Yesterday</span>
-                <h3 class="card-title mb-2">₦{{ number_format($totalRevenueYesterday) }}</h3>
-            </div>
-        </div>
-    </div>
-
-    <!-- Revenue Today Card -->
-    <div class="col-lg-3 col-md-6 col-12 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between">
-                    <div class="avatar flex-shrink-0">
-                        <img src="{{ asset('assets/img/icons/unicons/wallet-info.png') }}" alt="Credit Card" class="rounded">
-                    </div>
-                </div>
-                <span>Revenue Today</span>
-                <h3 class="card-title text-nowrap mb-1">₦{{ number_format($totalSalesToday) }}</h3>
-            </div>
-        </div>
-    </div>
-
-    <!-- Chart Card Below Cards -->
+    <!-- Chart Card -->
     <div class="col-12 mt-3">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title mb-4">Revenue Overview</h5>
+                <h5 class="card-title mb-4">Last 6 Months Revenue Trend</h5>
                 <div id="revenueChart"></div>
             </div>
         </div>

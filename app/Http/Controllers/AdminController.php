@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+// use DB;
+use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\PartnerServiceReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -66,10 +69,25 @@ class AdminController extends Controller
     $totalRevenueYesterday = PartnerServiceReport::whereDate('added_date', $yesterday)
                                                     ->selectRaw('SUM(charge_amount * count) as total')
                                                     ->value('total') ?? 0;
+  $lastSixMonths = [];
+                                              for ($i = 5; $i >= 0; $i--) {
+                                                        $month = Carbon::now()->subMonths($i);
+                                                        $startOfMonth = $month->startOfMonth()->toDateString();
+                                                        $endOfMonth = $month->endOfMonth()->toDateString();
+                                                    
+                                                        $total = PartnerServiceReport::whereBetween('added_date', [$startOfMonth, $endOfMonth])
+                                                                    ->selectRaw('SUM(charge_amount * count) as total')
+                                                                    ->value('total') ?? 0;
+                                                    
+                                                        $lastSixMonths[] = [
+                                                            'month' => $month->format('F'),  // E.g., January
+                                                            'total' => $total
+                                                        ];
+                                                    }
     return view(
       'content.dashboard.admin.dashboard-admin',
       compact('totalRevenueThisMonth', 'totalRevenueThisWeek', 'totalSalesToday',
-        'totalServicesToday', 'totalRevenueAllTime', 'totalRevenueYesterday')
+        'totalServicesToday', 'totalRevenueAllTime', 'totalRevenueYesterday', 'lastSixMonths')
     );
   }
 
@@ -158,6 +176,7 @@ class AdminController extends Controller
     ->distinct()
     ->orderBy('service_type')
     ->pluck('service_type');
+    $amounts =  PartnerServiceReport::select('charge_amount')->distinct()->orderBy('charge_amount', 'desc')->pluck('charge_amount');
         // Start with the base query
         $partnerServices = PartnerServiceReport::query();
 
@@ -181,7 +200,12 @@ class AdminController extends Controller
         if ($request->filled('from') && $request->filled('to')) {
             $partnerServices->whereBetween('added_date', [$request->from, $request->to]);
         }
-    
+        if ($request->filled('from') && !$request->filled('to')) {
+          // $to = Carbon::today();
+          $to =  now()->toDateString();
+          $partnerServices->whereBetween('added_date', [$request->from, $request->to]);
+      }
+  
         // Filter by Service Type
         if ($request->filled('service_type')) {
             $partnerServices->where('service_type', 'like', '%' . $request->service_type . '%');
@@ -192,19 +216,28 @@ class AdminController extends Controller
             $partnerServices->where('charge_amount', 'like', '%' . $request->charge_amount . '%');
         }
         
-        if (
-          !$request->filled('logged_date') &&
-          !$request->filled('from') &&
-          !$request->filled('to') &&
-          !$request->filled('added_date')
-      ) {
-          $partnerServices->whereDate('created_at', now()->toDateString());
-      }
+      //   if (!$request->filled('from') && !$request->filled('to')) {
+      //     // $partnerServices->whereDate('created_at', now()->toDateString());
+      //     $partnerServices->orderBy('added_date', 'desc');
+      // } else {
+      //   $partnerServices->orderBy('added_date', 'desc');
+
+      // }
+      $partnerServices->orderBy('added_date', 'desc');
+      $totalAmount = (clone $partnerServices)->sum(DB::raw('charge_amount * count'));
+      $totalCount = (clone $partnerServices)->sum('count');
         // Get paginated results
         $partnerServices = $partnerServices->paginate(10);
+        $totalRecords = $partnerServices->total();
     
         // Return the view with the filtered results
-        return view('content.form-elements.admin.all-statistics', compact('partnerServices', 'serviceTypes'));
+        return view('content.form-elements.admin.all-statistics', compact(
+          'partnerServices', 
+          'serviceTypes', 
+          'amounts', 
+          'totalAmount', 
+          'totalRecords',
+          'totalCount'));
     }
 
 

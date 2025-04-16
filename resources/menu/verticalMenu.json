@@ -1,50 +1,23 @@
 {
   "menu": [
     {
-      "url": "/dashboard",
+      "url": "/partner-dashboard",
       "name": "Dashboard",
       "icon": "menu-icon tf-icons bx bx-home-smile",
       "slug": "dashboard"
     },
+
     {
-      "name": "Manage Subscriptions",
-      "icon": "menu-icon tf-icons bx bx-layout",
-      "slug": "posts",
-      "submenu": [
-        {
-          "url": "/forms/basic-inputs",
-          "name": "Active Subscriptions",
-          "slug": "susbcriptions"
-        },
-        {
-          "url": "/tables/basic",
-          "name": "See all post",
-          "slug": "posts"
-        }
-      ]
+      "url": "/partner-statistics",
+      "name": "Statistics",
+      "icon": "menu-icon tf-icons bx bx-calculator",
+      "slug": "dashboard"
     },
-    {
-      "url": "",
-      "name": "Manage User",
-      "icon": "menu-icon tf-icons bx bx-detail",
-      "slug": "category",
-      "submenu": [
-        {
-          "url": "/create-category",
-          "name": "All Users",
-          "slug": "categories"
-        },
-        {
-          "url": "/all-category",
-          "name": "See all categories",
-          "slug": "categories"
-        }
-      ]
-    },
+
     {
       "url": "/logout",
       "name": "Logout",
-      "icon": "menu-icon tf-icons bx bx-home-smile",
+      "icon": "menu-icon tf-icons bx bx-circle",
       "slug": "logout"
     }
 
