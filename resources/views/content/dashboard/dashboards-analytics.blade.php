@@ -74,7 +74,7 @@
             <div class="d-flex align-items-start row">
                 <div class="col-sm-7">
                     <div class="card-body">
-                        <h5 class="card-title text-primary mb-3">Welcome {{$user->name}}, Admin! 🎉</h5>
+                        <h5 class="card-title text-primary mb-3">Welcome {{$user->service_name}}, Admin! 🎉</h5>
                         <p class="mb-6">Get live reports <br>Analysis and Updates on your services</p>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                             <img src="{{ asset('assets/img/icons/unicons/cc-warning.png') }}" alt="chart success" class="rounded">
                         </div>
                         <p class="mb-1">Revenue All Time</p>
-                        <h4 class="card-title mb-3" style="font-size: 18px">₦{{ number_format($totalRevenueAllTime, 2) }}</h4>
+                        <h4 class="card-title mb-3" style="font-size: 15px">₦{{ number_format($totalRevenueAllTime, 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                             <img src="{{ asset('assets/img/icons/unicons/cc-primary.png') }}" alt="Credit Card" class="rounded">
                         </div>
                         <p class="mb-1">Total Count</p>
-                        <h4 class="card-title mb-3" style="font-size: 20px">{{ $totalCountAllTime }}</h4>
+                        <h4 class="card-title mb-3" style="font-size: 15px">{{ $totalCountAllTime }}</h4>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                             <img src="{{ asset('assets/img/icons/unicons/cc-warning.png') }}" alt="paypal" class="rounded">
                         </div>
                         <p class="mb-1">Revenue This Month</p>
-                        <h4 class="card-title mb-3" style="font-size: 18px">₦{{ number_format($totalRevenueThisMonth, 2) }}</h4>
+                        <h4 class="card-title mb-3" style="font-size: 15px">₦{{ number_format($totalRevenueThisMonth, 2) }}</h4>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@
                             <img src="{{ asset('assets/img/icons/unicons/cc-primary.png') }}" alt="Credit Card" class="rounded">
                         </div>
                         <p class="mb-1">Count This Month</p>
-                        <h4 class="card-title mb-3" style="font-size: 20px">{{ $totalCountThisMonth }}</h4>
+                        <h4 class="card-title mb-3" style="font-size: 15px">{{ $totalCountThisMonth }}</h4>
                     </div>
                 </div>
             </div>

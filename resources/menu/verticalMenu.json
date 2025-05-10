@@ -1,17 +1,17 @@
 {
   "menu": [
     {
-      "url": "/partner-dashboard",
+      "url": "/dashboard",
       "name": "Dashboard",
       "icon": "menu-icon tf-icons bx bx-home-smile",
       "slug": "dashboard"
     },
 
     {
-      "url": "/partner-statistics",
+      "url": "/statistics",
       "name": "Statistics",
       "icon": "menu-icon tf-icons bx bx-calculator",
-      "slug": "dashboard"
+      "slug": "statistics"
     },
 
     {

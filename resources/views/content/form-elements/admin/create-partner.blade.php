@@ -7,26 +7,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const passwordField = document.getElementById('partnerPassword');
-        passwordField.value = generateSimplePassword();
+        passwordField.value = generateStrongPassword(12); // You can change the length here
 
-        function generateSimplePassword() {
-            const words = [
-                'apple', 'orange', 'banana', 'grape', 'cherry', 'peach', 'mango', 
-                'berry', 'melon', 'lemon', 'pineapple', 'kiwi', 'plum', 'pear', 
-                'papaya', 'apricot', 'fig', 'guava', 'lychee', 'nectarine', 'date', 
-                'pomegranate', 'coconut', 'blueberry', 'strawberry', 'raspberry', 
-                'blackberry', 'watermelon', 'cantaloupe', 'tangerine', 'passionfruit', 
-                'dragonfruit', 'cranberry', 'currant', 'persimmon', 'jackfruit', 
-                'kumquat', 'mulberry', 'olive', 'avocado', 'quince', 'gooseberry'
-            ];
-            const password = [];
-            for (let i = 0; i < 3; i++) {
-                password.push(words[Math.floor(Math.random() * words.length)]);
+        function generateStrongPassword(length) {
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset[randomIndex];
             }
-            return password.join('-');
+            return password;
         }
     });
 </script>
+
 @endsection
 
 @section('content')
@@ -81,6 +75,18 @@
                                 @enderror
                             </div>
                             <div class="col-md-6">
+                            
+                            <label for="password" class="form-label">Service ID</label>
+                            <input type="text" id="ServiceId" name="service_id" class="form-control" placeholder="Service ID" />
+                            @error('service_id')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                           
+                        </div>
+
+                        <div class="form-group mb-4">
                                 <label for="partner_type" class="form-label">Type</label>
                                 <select id="type" name="type" class="form-select">
                                     <option value="martad">Martad</option>
@@ -90,7 +96,6 @@
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
 
                         <div class="form-group mb-4">
                             <label for="password" class="form-label">Password</label>

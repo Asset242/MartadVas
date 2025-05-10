@@ -69,7 +69,11 @@ Route::get('/login', function () {
  * |----------------------------------------------------------------
  */
 Route::middleware('auth:web')->group(function () {
-  Route::get('partner-dashboard', [PartnerController::class, 'home'])->name('partner.dashboard');
+  Route::get('dashboard', [PartnerController::class, 'home'])->name('partner.dashboard');
+  Route::get('statistics', [PartnerController::class, 'partnerStatistics'])->name('partner.statistics');
+  Route::get('report/statistics', [PartnerController::class, 'partnerStatistics'])->name('partner.partner_service.report');
+
+
   Route::get('logout', [PartnerController::class, 'logout'])->name('partner.logout');
   Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
   Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -102,6 +106,11 @@ Route::prefix('martad')->group( function () {
 
           Route::get('all-partners', [AdminController::class, 'getPartners'])->name('admin-partners');
           Route::post('create-partner', [AdminController::class,'createPartner'])->name('admin.create.partner');
+
+          Route::get('import-report', [AdminController::class,'getImport'])->name('admin.import.report');
+          Route::post('import-vas-report', [AdminController::class,'importVASReport'])->name('admin.import.vas');
+
+
 
 
           Route::get('create-product', [AdminController::class, 'getCreateProduct'])->name('get-admin-create');

@@ -1,4 +1,4 @@
-@extends('layouts/contentNavbarLayout')
+@extends('layouts/ContentNavbarLayout')
 
 @section('title', 'Partner Service Report')
 
@@ -6,11 +6,11 @@
 <div class="row g-6">
     <div class="col-md-12">
         <div class="card">
-            <h5 class="card-header">Partner Service Report</h5>
+            <h5 class="card-header">{{ $user->service_name }} Service Report</h5>
             <div class="card-body">
 
                 <!-- Filter Form -->
-                <form method="GET" action="{{ route('admin.partner_service.report') }}" class="row g-3 mb-4">
+                <form method="GET" action="{{ route('partner.partner_service.report') }}" class="row g-3 mb-4">
                     <!-- <div class="col-md-4">
                         <label for="added_date" class="form-label">Added Date</label>
                         <input type="date" id="added_date" name="added_date" class="form-control" 
@@ -34,13 +34,12 @@
                         <input type="date" id="added_date" name="to" class="form-control" 
                                value="{{ request('to') }}">
                     </div>
-
                     <div class="col-md-4">
-    <label for="service_type" class="form-label">Service Type</label>
-    <select id="service_type" name="service_type" class="form-select">
+    <label for="product_types" class="form-label">Product Type</label>
+    <select id="product_types" name="product_types" class="form-select">
         <option value="">-- All --</option>
-        @foreach($serviceTypes as $type)
-            <option value="{{ $type }}" {{ request('service_type') == $type ? 'selected' : '' }}>
+        @foreach($productTypes as $type)
+            <option value="{{ $type }}" {{ request('product_types') == $type ? 'selected' : '' }}>
                 {{ $type }}
             </option>
         @endforeach
@@ -48,12 +47,18 @@
 </div>
 
 
+
+
+
                     <div class="mb-3">
-    <label for="charge_amount" class="form-label">Charge Amount</label>
-    <select id="charge_amount" name="charge_amount" class="form-select">
+    <label for="price_point" class="form-label">Price Point</label>
+    <select id="price_point" name="price_point" class="form-select">
         <option value="">-- All --</option>
         @foreach($amounts as $amount)
-            <option value="{{ $amount }}" {{ request('charge_amount') == $amount ? 'selected' : '' }}>₦{{ number_format($amount) }}</option>
+        <option value="{{ $amount }}" {{ request('price_point') == $amount ? 'selected' : '' }}>
+    ₦{{ number_format((float) $amount) }}
+</option>
+
         @endforeach
     </select>
 </div>
@@ -85,10 +90,14 @@
                 <thead table-light>
                             <tr>
                                 <th>#</th>
-                                <th>Service Type</th>
-                                <th>Charge Amount</th>
-                                <th>Added Date</th>
+                                <th>Service Id</th>
+                                <th>Product Name</th>
+                                
+                                <th>Price Point</th>
+                                <th>Date</th>
                                 <th>Count</th>
+                                <th>Transaction</th>
+
                                 <th>Total</th>
 
                             </tr>
@@ -97,12 +106,16 @@
                             @forelse ($partnerServices as $index => $service)
                                 <tr>
                                     <td>{{ $partnerServices->firstItem() + $index }}</td>
-                                    <td>{{ $service->service_type }}</td>
-                                    <td>₦{{ $service->charge_amount }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($service->added_date)->format('l, jS F Y') }}</td>
+                                    <td>
+    {{ $serviceTypes[$service->service_id] ?? $service->service_id }}
+</td>
 
+                                    <td>{{ $service->product_name }}</td>
+                                    <td>₦{{ $service->price_point }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($service->date)->format('l, jS F Y') }}</td>
                                     <td>{{ $service->count }}</td>
-                                    <td>₦{{ $service->charge_amount  * $service->count }}</td>
+                                    <td>{{ $service->transaction }}</td>
+                                    <td>₦{{ $service->revenue }}</td>
 
                                 </tr>
                             @empty

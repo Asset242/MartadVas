@@ -48,6 +48,12 @@
         "slug": "statistics"
       },
       {
+        "url": "/martad/import-report",
+        "name": "Import Report",
+        "icon": "menu-icon tf-icons bx bx-import",
+        "slug": "import"
+      },
+      {
         "url": "/martad/logout",
         "name": "Logout",
         "icon": "menu-icon tf-icons bx bx-home-smile",
