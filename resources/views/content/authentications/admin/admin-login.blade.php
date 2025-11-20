@@ -1,6 +1,6 @@
 @extends('layouts/blankLayout')
 
-@section('title', 'Martad-Admin - Login')
+@section('title', 'rabash-Admin - Login')
 
 @section('page-style')
 @vite([
@@ -19,18 +19,18 @@
           <div class="app-brand justify-content-center">
             <a href="{{url('/')}}" class="app-brand-link gap-2">
               <!-- <span class="app-brand-logo demo">@include('_partials.macros',["width"=>25,"withbg"=>'var(--bs-primary)'])</span> -->
-              <span class="app-brand-text demo text-heading fw-bold">Martad Admin</span>
+              <span class="app-brand-text demo text-heading fw-bold">Rabash Admin</span>
             </a>
           </div>
           <!-- /Logo -->
-          <center><h4 class="mb-1">Welcome to Martad Admin 👨‍💻</h4> </center>
+          <center><h4 class="mb-1">Welcome to Rabash Admin 👨‍💻</h4> </center>
           @error('message')
                     <div class="alert alert-danger">
                         {{ $message }}
                     </div>
                 @enderror
 
-          <form id="formAuthentication" class="mb-6" action="{{ route('martad.admin.login') }}" method="POST">
+          <form id="formAuthentication" class="mb-6" action="{{ route('rabash.admin.login') }}" method="POST">
             @csrf
             <div class="mb-6">
               <label for="email" class="form-label">✉️Email</label>

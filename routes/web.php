@@ -94,9 +94,9 @@ Route::middleware('auth:web')->group(function () {
  * |Admin Routes ---------------------------------------------------
  * |----------------------------------------------------------------
  */
-Route::prefix('martad')->group( function () {
-  Route::get('admin', [AdminController::class, 'loginPage'])->name('martad.admin');
-  Route::post('admin-login', [AdminController::class, 'adminLogin'])->name('martad.admin.login');
+Route::prefix('rabash')->group( function () {
+  Route::get('admin', [AdminController::class, 'loginPage'])->name('rabash.admin');
+  Route::post('admin-login', [AdminController::class, 'adminLogin'])->name('rabash.admin.login');
     Route::middleware('auth:admin')->group(function () {
           Route::get('dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dashboard');
           Route::get('create-partner', [AdminController::class, 'getCreatePartner'])->name('admin-create');

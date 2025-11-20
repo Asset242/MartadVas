@@ -1,8 +1,8 @@
 <?php
   // Variables
   return [
-    "creatorName" => "Martad",
+    "creatorName" => "Rabash",
 
-    "templateName" => "Martad Partner",
+    "templateName" => "Rabash Partner",
 
   ];

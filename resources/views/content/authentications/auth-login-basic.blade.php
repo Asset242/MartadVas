@@ -19,11 +19,11 @@
           <div class="app-brand justify-content-center">
             <a href="{{url('/')}}" class="app-brand-link gap-2">
               <!-- <span class="app-brand-logo demo">@include('_partials.macros',["width"=>25,"withbg"=>'var(--bs-primary)'])</span> -->
-              <span class="app-brand-text demo text-heading fw-bold">Martad Portal</span>
+              <span class="app-brand-text demo text-heading fw-bold">Rabash Portal</span>
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-1">Welcome to Martad Partner</h4>
+          <h4 class="mb-1">Welcome to Rabash Partner</h4>
           <p class="mb-6">Please sign-in to your partner account</p>
           @error('message')
                     <div class="alert alert-danger">

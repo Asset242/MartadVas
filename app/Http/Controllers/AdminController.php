@@ -108,7 +108,7 @@ class AdminController extends Controller
       'password' => 'required|string|min:8',
       'service_name' => 'required|string|unique:users,service_name|max:255',
       'service_id' => 'required|string|unique:users,service_id|max:255',
-      'type' => 'required|in:martad,partner',
+      'type' => 'required|in:rabash,partner',
     ]);
 
     User::create([
@@ -278,7 +278,7 @@ class AdminController extends Controller
     auth('admin')->logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-    return redirect()->route('martad.admin')->with('success', 'You have been logged out.');
+    return redirect()->route('rabash.admin')->with('success', 'You have been logged out.');
   }
 
 
