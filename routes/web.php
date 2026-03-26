@@ -85,7 +85,6 @@ Route::middleware('auth:web')->group(function () {
   Route::get('/all-category', [AllCategory::class, 'index'])->name('categories.all');
   Route::get('/create-category', [AllCategory::class, 'create'])->name('categories.create');
   Route::post('/store-category', [CategoryController::class, 'store'])->name('categories.store');
-
 });
 
 
@@ -94,31 +93,30 @@ Route::middleware('auth:web')->group(function () {
  * |Admin Routes ---------------------------------------------------
  * |----------------------------------------------------------------
  */
-Route::prefix('rabash')->group( function () {
-  Route::get('admin', [AdminController::class, 'loginPage'])->name('rabash.admin');
-  Route::post('admin-login', [AdminController::class, 'adminLogin'])->name('rabash.admin.login');
-    Route::middleware('auth:admin')->group(function () {
-          Route::get('dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dashboard');
-          Route::get('create-partner', [AdminController::class, 'getCreatePartner'])->name('admin-create');
-          Route::get('statistics', [AdminController::class, 'getStatistics'])->name('statistics');
-          Route::get('/report', [AdminController::class, 'getStatistics'])->name('admin.partner_service.report');
+Route::prefix('martad')->group(function () {
+  Route::get('admin', [AdminController::class, 'loginPage'])->name('martad.admin');
+  Route::post('admin-login', [AdminController::class, 'adminLogin'])->name('martad.admin.login');
+  Route::middleware('auth:admin')->group(function () {
+    Route::get('dashboard', [AdminController::class, 'adminDashboard'])->name('admin-dashboard');
+    Route::get('create-partner', [AdminController::class, 'getCreatePartner'])->name('admin-create');
+    Route::get('statistics', [AdminController::class, 'getStatistics'])->name('statistics');
+    Route::get('/report', [AdminController::class, 'getStatistics'])->name('admin.partner_service.report');
 
 
-          Route::get('all-partners', [AdminController::class, 'getPartners'])->name('admin-partners');
-          Route::post('create-partner', [AdminController::class,'createPartner'])->name('admin.create.partner');
+    Route::get('all-partners', [AdminController::class, 'getPartners'])->name('admin-partners');
+    Route::post('create-partner', [AdminController::class, 'createPartner'])->name('admin.create.partner');
 
-          Route::get('import-report', [AdminController::class,'getImport'])->name('admin.import.report');
-          Route::post('import-vas-report', [AdminController::class,'importVASReport'])->name('admin.import.vas');
-
-
+    Route::get('import-report', [AdminController::class, 'getImport'])->name('admin.import.report');
+    Route::post('import-vas-report', [AdminController::class, 'importVASReport'])->name('admin.import.vas');
 
 
-          Route::get('create-product', [AdminController::class, 'getCreateProduct'])->name('get-admin-create');
-          Route::get('all-product', [AdminController::class, 'getProduct'])->name('admin-product');
-          Route::post('create-product', [AdminController::class,'createProduct'])->name('admin.create.product');
-          Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
 
-    });
+
+    Route::get('create-product', [AdminController::class, 'getCreateProduct'])->name('get-admin-create');
+    Route::get('all-product', [AdminController::class, 'getProduct'])->name('admin-product');
+    Route::post('create-product', [AdminController::class, 'createProduct'])->name('admin.create.product');
+    Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
+  });
 });
 
 

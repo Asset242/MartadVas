@@ -89,7 +89,7 @@
                         <div class="form-group mb-4">
                                 <label for="partner_type" class="form-label">Type</label>
                                 <select id="type" name="type" class="form-select">
-                                    <option value="rabash">rabash</option>
+                                    <option value="martad">martad</option>
                                     <option value="partner">Partner</option>
                                 </select>
                                 @error('type')

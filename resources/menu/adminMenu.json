@@ -1,7 +1,7 @@
 {
     "menu": [
       {
-        "url": "/rabash/dashboard",
+        "url": "/martad/dashboard",
         "name": "Dashboard",
         "icon": "menu-icon tf-icons bx bx-home-smile",
         "slug": "dashboard"
@@ -12,12 +12,12 @@
         "slug": "posts",
         "submenu": [
           {
-            "url": "/rabash/create-partner",
+            "url": "/martad/create-partner",
             "name": "Create partner",
             "slug": "partner"
           },
           {
-            "url": "/rabash/all-partners",
+            "url": "/martad/all-partners",
             "name": "All Partners",
             "slug": "partners"
           }
@@ -30,31 +30,31 @@
         "slug": "category",
         "submenu": [
           {
-            "url": "/rabash/create-product",
+            "url": "/martad/create-product",
             "name": "Create products",
             "slug": "products"
           },
           {
-            "url": "/rabash/all-product",
+            "url": "/martad/all-product",
             "name": "All Products",
             "slug": "Products"
           }
         ]
       },
       {
-        "url": "/rabash/statistics",
+        "url": "/martad/statistics",
         "name": "Statistics",
         "icon": "menu-icon tf-icons bx bx-calculator",
         "slug": "statistics"
       },
       {
-        "url": "/rabash/import-report",
+        "url": "/martad/import-report",
         "name": "Import Report",
         "icon": "menu-icon tf-icons bx bx-import",
         "slug": "import"
       },
       {
-        "url": "/rabash/logout",
+        "url": "/martad/logout",
         "name": "Logout",
         "icon": "menu-icon tf-icons bx bx-home-smile",
         "slug": "logout"
