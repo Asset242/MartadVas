@@ -319,10 +319,8 @@ class AdminController extends Controller
         continue;
       }
 
-      $dateValue = $data[0];
-      $date = is_numeric($dateValue)
-        ? Date::excelToDateTimeObject($dateValue)->format('Y-m-d')
-        : $now->format('Y-m-d');
+      $dateValue = $data[0] ?? null;
+      $date = $this->normalizeImportDate($dateValue, $now);
 
       // Skip duplicate
       // $exists = DB::table('vas_reports')->where([
@@ -370,5 +368,56 @@ class AdminController extends Controller
 
     $logs = VasImportLog::orderBy('imported_at', 'desc')->get();
     return view('content.form-elements.admin.import-report', compact('logs'));
+  }
+
+  private function normalizeImportDate($dateValue, Carbon $fallbackDate): string
+  {
+    if (empty($dateValue)) {
+      return $fallbackDate->toDateString();
+    }
+
+    if ($dateValue instanceof \DateTimeInterface) {
+      return Carbon::instance($dateValue)->toDateString();
+    }
+
+    if (is_numeric($dateValue)) {
+      try {
+        return Date::excelToDateTimeObject((float) $dateValue)->format('Y-m-d');
+      } catch (\Throwable $e) {
+        return $fallbackDate->toDateString();
+      }
+    }
+
+    $value = trim((string) $dateValue);
+    $value = preg_replace('/\s+/', ' ', $value);
+
+    $formats = [
+      'Y-m-d',
+      'Y/m/d',
+      'd-m-Y',
+      'd/m/Y',
+      'm-d-Y',
+      'm/d/Y',
+      'd.m.Y',
+      'd M Y',
+      'd-M-Y',
+      'M d Y',
+    ];
+
+    foreach ($formats as $format) {
+      try {
+        $parsed = Carbon::createFromFormat($format, $value);
+        if ($parsed !== false) {
+          return $parsed->toDateString();
+        }
+      } catch (\Throwable $e) {
+      }
+    }
+
+    try {
+      return Carbon::parse($value)->toDateString();
+    } catch (\Throwable $e) {
+      return $fallbackDate->toDateString();
+    }
   }
 }
